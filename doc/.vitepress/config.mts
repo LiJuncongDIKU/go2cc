@@ -13,7 +13,7 @@ export default defineConfig({
       { text: '行业历史', link: '/history/index.md' },
       { text: '生活证据', link: '/events/index.md' }
     ],
-    logo: '../assets/icons/white_cat.svg',
+    logo: '/assets/icons/white_cat.svg',
 
     sidebar: {
       '/knowledge/': [
@@ -30,6 +30,7 @@ export default defineConfig({
         {
           text: '行业历史',
           items: [
+            { text: '历史巨人', link: '/history/turing.md' },
             { text: '计算机革命', link: '/history/computer.md' },
           ]
         }
