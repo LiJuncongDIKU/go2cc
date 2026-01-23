@@ -2,6 +2,7 @@ import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
+  base: '/go2cc/',
   title: "GO2CC",
   description: "行业知识",
   themeConfig: {
