@@ -12,8 +12,8 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       // { text: 'Home', link: '/' },
-      { text: '前端技术', link: '/knowledge/index.md' },
-      { text: '行业历史', link: '/history/index.md' },
+      { text: '前端技术', link: '/knowledge/webCompoment.md' },
+      { text: '行业历史', link: '/history/turing.md' },
       { text: '生活证据', link: '/events/index.md' }
     ],
     logo: '/assets/icons/white_cat.svg',
@@ -21,11 +21,15 @@ export default defineConfig({
     sidebar: {
       '/knowledge/': [
         {
-          text: '前端技术',
+          text: '热门框架 & 概念',
           items: [
-            // { text: 'HTML', link: '/knowledge/html.md' },
-            // { text: 'CSS', link: '/knowledge/css.md' },
-            // { text: 'JavaScript', link: '/knowledge/javascript.md' },
+            { text: '微前端', link: '/knowledge/microFront.md' },
+          ]
+        },
+        {
+          text: '根本技术 & 标准',
+          items: [
+            { text: 'Web Component', link: '/knowledge/webCompoment.md' },
           ]
         }
       ],
@@ -49,7 +53,7 @@ export default defineConfig({
     },
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/vuejs/vitepress' }
+      { icon: 'github', link: 'https://github.com/LiJuncongDIKU/go2cc' }
     ]
   }
 })
