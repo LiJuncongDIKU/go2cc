@@ -12,7 +12,7 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       // { text: 'Home', link: '/' },
-      { text: '前端技术', link: '/knowledge/webCompoment.md' },
+      { text: '前端技术', link: '/knowledge/index.md' },
       { text: '行业历史', link: '/history/turing.md' },
       { text: '生活证据', link: '/events/index.md' }
     ],
@@ -20,6 +20,12 @@ export default defineConfig({
 
     sidebar: {
       '/knowledge/': [
+         {
+          text: 'hello!',
+          items: [
+            { text: '扉页', link: '/knowledge/index.md' },
+          ]
+        },
         {
           text: '热门框架 & 概念',
           items: [
@@ -30,10 +36,17 @@ export default defineConfig({
           text: '根本技术 & 标准',
           items: [
             { text: 'Web Component', link: '/knowledge/webCompoment.md' },
+            {text:"JS 模块化标准", link: '/knowledge/jsModule.md'},
           ]
         }
       ],
       '/history/': [
+        {
+          text: 'hello!',
+          items: [
+            { text: '扉页', link: '/history/index.md' },
+          ]
+        },
         {
           text: '行业历史',
           items: [
