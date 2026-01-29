@@ -89,7 +89,22 @@ console.log(countModule.getCount()); // 2
     define(['module1', 'module2'], function(m1, m2) {
       return { sayHi: () => console.log('Hi') };
     });
+    // 导入
+    require(['module1', 'module2'], function(m1, m2) {
+      m1.sayHi(); // Hi
+    });
+    // 快速配置
+    require.config({
+        baseUrl: '/js',
+        paths: {
+            'module1': 'module1',
+            'module2': 'module2',
+        }
+    });
     ```
+:::info 时代的眼泪
+CommonJS不支持异步，浏览器`<script>`标签模块化标准化管理缺位，于是AMD诞生了。笔者上大学的时候就已经它就已经被落寞了。据了解，它大概从 2010年 开始流行，到 2015年 被 ES6 取代。
+:::
 
 ### 3. CMD (Common Module Definition)
 **背景**：由淘宝团队玉伯提出，配合 SeaJS 使用。
