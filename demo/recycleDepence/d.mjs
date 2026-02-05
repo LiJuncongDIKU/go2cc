@@ -1,7 +1,5 @@
 import { done as cDone } from './c.mjs';
 export let done = false;
-setTimeout(() => {
-  console.log('在 d 中，cDone =', cDone);
-}, 1000); 
+console.log('在 d 中，cDone =', cDone);
 done = true;
 console.log('d 执行完毕');

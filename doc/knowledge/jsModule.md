@@ -332,3 +332,59 @@ console.log('d 执行完毕');
 > c 执行完毕
 > 在 d 中，cDone = true # 等待了1s
 ```
+- 或者定义改为var
+```js
+// c.mjs
+import { done as dDone } from './d.mjs';
+export let done = false; // [!code --]
+export var done = false; // [!code ++]
+console.log('在 c 中，dDone =', dDone);
+done = true
+console.log('c 执行完毕');
+
+// d.mjs
+import { done as cDone } from './c.mjs';
+export let done = false;
+console.log('在 d 中，cDone =', cDone);
+done = true;
+console.log('d 执行完毕');
+```
+```bash
+< node c.mjs
+> 在 d 中，cDone = undefined
+> d 执行完毕
+> 在 c 中，dDone = true
+> c 执行完毕
+```
+
+## ESM的实际初始化步骤
+1. 加载入口文件
+2. 加载所有import语句，递归加载所有依赖的文件
+3. 申请所有需要的内存（包括let/const声明的变量），建立依赖之间的连接，比如变量引用
+    - 3.1 var 声明的变量会被立刻初始化，值为undefined
+4. 实例化执行：深度优先、后序遍历
+5. 死区：此处访问未被初始化的let/const变量会报错，类似Java的空指针
+
+---
+这里是AI的回答：
+### 🚀 ESM (ES Modules) 核心运行机制总结
+
+#### 1. 构建阶段 (Construction)
+* **入口解析**：从入口文件开始，静态分析所有的 `import` 语句。
+* **递归加载**：通过递归方式下载并加载所有依赖文件。
+* **形成依赖图**：引擎在内存中生成一张静态的模块关系图谱（Module Record）。
+
+#### 2. 实例化阶段 (Instantiation / Linking)
+* **分配内存**：为所有 `export` 导出的变量分配内存空间（但此时不运行代码）。
+* **建立符号连接 (Bindings)**：将 `import` 端指向 `export` 端的内存地址，建立“实时绑定”。
+* **初始化差异**：
+    * **`var` 声明**：分配内存并**立刻初始化为 `undefined`**。
+    * **`function` 声明**：分配内存并**立刻初始化为完整的函数体**（提升最彻底）。
+    * **`let / const` 声明**：仅分配内存，标记为 **“未初始化 (Uninitialized)”**，进入暂时性死区。
+
+#### 3. 求值与执行阶段 (Evaluation)
+* **算法顺序**：执行遵循 **深度优先、后序遍历 (Depth-First Post-Order Traversal)**。
+    * **逻辑**：引擎先沿着依赖链走到最底层的叶子节点（无依赖模块），先执行子模块，最后执行父模块（入口）。
+* **脱离死区**：当执行流物理上经过 `let/const` 的赋值语句时，内存空间才会被填入真实值，变量正式可用。
+* **暂时性死区 (TDZ)**：在变量被初始化之前，任何读取该变量的尝试都会抛出 `ReferenceError`。
+    * *类比*：类似于 Java 的空指针，但比空指针更严格——在 JS 中，未初始化前“触碰”变量名即报错。
