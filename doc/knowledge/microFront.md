@@ -63,7 +63,7 @@ Techniques, strategies and recipes for building a modern web app with multiple t
   - 打包产物就是 `index.html` 和一堆 `bundle.js`。
 - 子应用打包：
   - 子应用不需要包括`qiankun`的相关代码，注意输出、允许跨域、public路径
-  - UMD：主应用在加载子应用时，会通过 `fetch` 获取 JS 脚本，然后通过 eval 执行，并从中提取出 `mount` 等生命周期函数。
+  - [UMD](./jsModule.md#umd)：主应用在加载子应用时，会通过 `fetch` 获取 JS 脚本，然后通过 eval 执行，并从中提取出 `mount` 等生命周期函数。
   ```js
   // 子应用 webpack.config.js
   module.exports = {

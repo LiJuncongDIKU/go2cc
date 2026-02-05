@@ -1,4 +1,5 @@
-# JS 五种模块化标准-基于🤖gemini 润色
+# JS 五种模块化标准
+#### 基于🤖gemini+个人润色
 在 JavaScript 发展的几十年里，模块化方案经历了从无到有、从社区百花齐放（CJS, AMD, CMD, UMD）到官方统一（ESM）的过程。
 :::warning 这是必须的必须
 不要混淆导出的标准，在遇到非标准的npm包的时候要 **从从容容，游刃有余**
@@ -79,7 +80,7 @@ console.log(countModule.getCount()); // 2
 :::
 
 
-### 2. AMD (Asynchronous Module Definition)
+## AMD (Asynchronous Module Definition)
 **背景**：由 RequireJS 提出，专门为浏览器端设计。
 - **特点**：
     - **异步加载**：不阻塞浏览器渲染。
@@ -103,10 +104,10 @@ console.log(countModule.getCount()); // 2
     });
     ```
 :::info 时代的眼泪
-CommonJS不支持异步，浏览器`<script>`标签模块化标准化管理缺位，于是AMD诞生了。笔者上大学的时候就已经它就已经被落寞了。据了解，它大概从 2010年 开始流行，到 2015年 被 ES6 取代。
+CommonJS不支持异步，浏览器`<script>`标签模块化标准化管理缺位，于是AMD诞生了。笔者上大学的时候就已经它已经逐渐没落了。据了解，它大概从 2010年 开始流行，到 2015年 被 ES6 取代。
 :::
 
-### 3. CMD (Common Module Definition)
+## CMD (Common Module Definition)
 **背景**：由淘宝团队玉伯提出，配合 SeaJS 使用。
 - **特点**：
     - **就近依赖**：只有到需要用某个模块时才 `require`。
@@ -118,8 +119,14 @@ CommonJS不支持异步，浏览器`<script>`标签模块化标准化管理缺�
       // 业务逻辑...
     });
     ```
+:::info 时代的眼泪2
+- 核心逻辑：代码写起来像 Node.js，只有执行到 require('./a') 时才去下载并解析模块，**其实这个做法挺先进的**
+- 😵‍💫调试痛苦：因为 SeaJS 是动态解析包装代码，报错时的堆栈追踪（Stack Trace）往往很难定位到原始代码位置。
+- 😢前端工程化已经从加载模块脚本依赖到构建工具过度了，语法模式确实繁杂但也受限于当时的运行环境
+:::
+> 对于15年上大学的我来说确实没接触过，但是可以涉猎一下
 
-### 4. UMD (Universal Module Definition)
+## UMD (Universal Module Definition) {#umd}
 **背景**：为了解决 CJS 和 AMD 在前后端环境下的兼容性问题，诞生的“万能”模板。
 - **特点**：
     - **全环境兼容**：本质是一个 IIFE（立即执行函数）。
@@ -138,9 +145,19 @@ CommonJS不支持异步，浏览器`<script>`标签模块化标准化管理缺�
         return { name: 'universal' };
     }));
     ```
+:::info 算是给自己加了个兼容的运行入口
+- 本质上屎兼容执行环境，上述核心代码一目了然了
+- 像是 `Day.js` `lodash` 这样的库，就采用了 UMD 模式，在浏览器和 Node.js 环境下都能运行。
+:::
 
-### 5. ES Modules (ESM)
-**背景**：ES6 引入的官方标准，也是目前前端开发的绝对主流。
+## ES Modules (ESM) ⚒️
+:::warning 有个小背景
+- 2008年Google发布了V8引擎(底层C++)，卓越性能冲击了整个JS生态
+- 2009年，仅一年后 `Node.js` 基于V8开发出一套服务端适用的API，JS的服务端应用萌芽
+- ES6以前的JS表现在模块系统上有先天不足，如循环依赖、全局污染等问题。甚至整体的写法都很落后（🐢AI这么说的，我入行的时候已经是天然ES6玩家）
+- 2015年，ES6 正式发布，带来了JS的全新体系，这里我们只讨论模块系统
+:::
+**地位**：ES6 引入的官方标准，也是目前前端开发的绝对主流。
 - **特点**：
     - **静态编译**：在代码编译阶段就能确定模块依赖，支持 **Tree Shaking**（剔除无用代码）。
     - **符号引用（值的引用）**：导入的值是指针，模块内部修改后，外部获取的值会同步变化。
@@ -153,18 +170,165 @@ CommonJS不支持异步，浏览器`<script>`标签模块化标准化管理缺�
     // 导入
     import { name } from './module.js';
     ```
-
 ---
 
-### 🏆 总结对比
+:::details 一些细节
+**状态共享**: 比拷贝值更符合直觉
+```js
+// 两个文件都引入同一个模块
+import { increment } from './counter.js';
 
-| 标准 | 环境 | 加载方式 | 常用场景 |
-| :--- | :--- | :--- | :--- |
-| **CJS** | Node.js | 同步 | 服务端、构建工具配置 |
-| **AMD** | 浏览器 | 异步 | 早期前端项目 (RequireJS) |
-| **UMD** | 通用 | 自动识别 | 跨平台库/SDK (如 jQuery, Lodash) |
-| **ESM** | 通用 | 静态/异步 | 现代前端项目 (Vue/React)、Vite |
+// componentA.js 执行
+increment(); // 输出: 当前计数: 1
 
-**💡 面试高频点**：
-- **CJS vs ESM**：CJS 导出的是值的拷贝，ESM 导出的是值的引用；CJS 是运行时加载，ESM 是编译时加载。
-- **为什么现在首选 ESM？** 因为静态分析能力让打包工具（Webpack/Rollup）能更好地优化体积（Tree Shaking），且标准统一。
+// componentB.js 执行
+increment(); // 输出: 当前计数: 2 （状态共享）
+```
+**工程化的优势**
+假设`counter.js`的内容如下：
+```js
+let count = 0;
+
+export function increment() {
+    count++;
+    console.log(`当前计数: ${count}`);
+}
+// 这些没有被导出的函数可以依靠一些打包工具实现Tree Shaking
+export function foo1() {
+    console.log('foo1');
+}
+export function foo2() {
+    console.log('foo2');
+}
+// 等等……
+```
+**静态导出值**
+```js
+// 假设counter中export了count变量
+import { count, increment } from './counter.js';
+
+count++; // Error: Assignment to constant variable.
+/**
+ * 静态导出值：导出的是值的引用，而不是值的拷贝。
+ * CommonJS 导出变量的时候相当于定义了一个全新的变量并将他赋值为内部的值，该变量是全新的
+ * 而ES模块导出的变量是指向内部值的引用，外部不能直接修改，无论内部是var/let/const，外部修改都会报错
+ * 相当于导出的时候定义了类似的 `get value`
+ */
+```
+:::
+
+## ♻️循环依赖
+### 先看CommonJS
+```js
+// a.cjs
+exports.done = false;
+const b = require('./b.cjs');
+console.log('在 a 中，b.done =', b.done);
+exports.done = true;
+console.log('a 执行完毕');
+
+// b.cjs
+exports.done = false;
+const a = require('./a.cjs'); // 此时 a 只运行了一半！
+console.log('在 b 中，a.done =', a.done);
+exports.done = true;
+console.log('b 执行完毕');
+```
+- 分别以a和b作为入口方法执行，来对比差异
+- 遇到require时，会先执行被require的模块，然后再执行当前模块
+- 如果遇到的require是已经执行过的模块，会直接返回缓存的结果即使未执行完毕
+```text {1,7}
+< node a.cjs
+> 在 b 中，a.done = false
+> b 执行完毕
+> 在 a 中，b.done = true
+> a 执行完毕
+
+< node b.cjs
+> 在 a 中，b.done = false
+> a 执行完毕
+> 在 b 中，a.done = true
+> b 执行完毕
+```
+
+### 再看ES Modules
+- 定义两个文件
+```js
+// c.mjs
+import { done as dDone } from './d.mjs';
+export let done = false;
+console.log('在 c 中，dDone =', dDone);
+done = true
+console.log('c 执行完毕');
+
+// d.mjs
+import { done as cDone } from './c.mjs';
+export let done = false;
+console.log('在 d 中，cDone =', cDone);
+done = true
+console.log('d 执行完毕');
+```
+::: danger 报错
+< node d.mjs \
+\> ReferenceError: Cannot access 'dDone' before initialization
+
+- d作为入口，先加载，发现依赖声明`import { done as cDone } from './c.mjs';`
+- 然后去加载c，发现依赖声明`import { done as dDone } from './d.mjs';`
+- 由于d已经加载，因此不会再次加载，c因此往下执行
+- 读取dDone时，发现dDone还未初始化，因此报错
+:::
+
+## 暂时性死区（Temporal Dead Zone）
+这个概念其实很好理解，但是从ESM里面的循环依赖角度来看，就比较隐秘。
+### 基础例子
+```js {12}
+/**
+ * ES6 以前，var 声明的变量会提升到作用域顶部，而 let/const 不会
+ * 这里相当于
+ * var a;
+ * console.log(a); // 输出 undefined，而不会报错
+ * a = 10;
+ */
+console.log(a); // 输出 undefined，而不会报错
+var a = 10;
+
+console.log(b); // 报错：ReferenceError: Cannot access 'b' before initialization
+let b = 10; // 这行以上的代码都是暂时性死区
+```
+
+### ESM 循环依赖导致的暂时性死区
+- 和上面的var提升一样，所有import语句都会提升到作用域顶部
+```js
+// 0. 执行： < node c.mjs // [!code warning]
+// c.mjs   1. 加载文件 // [!code warning]
+import { done as dDone } from './d.mjs'; // 2. 执行依赖的文件 // [!code warning]
+export let done = false; // 5. 未执行 // [!code error]
+console.log('在 c 中，dDone =', dDone);
+done = true
+console.log('c 执行完毕');
+
+// d.mjs
+import { done as cDone } from './c.mjs'; // 3. 执行依赖的文件，d已加载往下，但未执行export // [!code warning]
+export let done = false;
+console.log('在 d 中，cDone =', cDone); // 4. 相当于并未定义 cDone;而造成死区 [!code error]
+done = true
+console.log('d 执行完毕');
+```
+- 从上面可以看出，报错行如果等待依赖的模块执行完毕，就不会报错我们这样修改一下
+```js
+// d.mjs
+import { done as cDone } from './c.mjs';
+export let done = false;
+setTimeout(() => { // [!code ++]
+  console.log('在 d 中，cDone =', cDone); 
+}, 1000); // [!code ++]
+done = true
+console.log('d 执行完毕');
+```
+```bash
+< node c.mjs
+> d 执行完毕
+> 在 c 中，dDone = true
+> c 执行完毕
+> 在 d 中，cDone = true # 等待了1s
+```
