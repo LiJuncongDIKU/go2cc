@@ -17,7 +17,9 @@ export default defineConfig({
       { text: '生活证据', link: '/events/index.md' }
     ],
     logo: '/assets/icons/white_cat.svg',
-
+    search: {
+      provider: 'local'
+    },
     sidebar: {
       '/knowledge/': [
          {
