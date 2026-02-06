@@ -17,10 +17,16 @@ Web 开发往往需要复用复杂的 HTML（以及相关的样式和脚本）�
   is an extra security feature — it is the last 3 or 4 numbers on the
   back of your card."></popup-info>
 ```
-这是一个MDN 上的实例，对应的底层API参看MDN。
+这是一个 [MDN 上的实例](https://developer.mozilla.org/zh-CN/docs/Web/API/CustomElementRegistry)，对应的底层API参看MDN。
 @reference [Vue 与 Web Component](https://cn.vuejs.org/guide/extras/web-components)
-可以知道组件系统的设计包括SFC中Template的写法就是基于自定义元素实现的。
-```js
+
+:::tip 🤓合理联想
+既然我们对比提出了 类似 `Vue框架的组件系统` 和 `Web Component`
+那岂不是顺利成章地理解一下Virtual DOM的概念？
+
+:::
+```js {1}
+CustomElementRegistry.define("popup-info", PopupInfo);
 // 为当这个元素创建一个类
 class PopupInfo extends HTMLElement {
   constructor() {

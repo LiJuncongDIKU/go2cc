@@ -29,6 +29,8 @@ export default defineConfig({
         {
           text: '热门框架 & 概念',
           items: [
+            { text: 'Vue', link: '/knowledge/vue.md' },
+            { text: 'React', link: '/knowledge/React.md' },
             { text: '微前端', link: '/knowledge/microFront.md' },
           ]
         },
