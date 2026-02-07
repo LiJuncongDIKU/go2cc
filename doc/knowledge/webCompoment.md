@@ -22,7 +22,7 @@ Web 开发往往需要复用复杂的 HTML（以及相关的样式和脚本）�
 
 :::tip 🤓合理联想
 既然我们对比提出了 类似 `Vue框架的组件系统` 和 `Web Component`
-那岂不是顺利成章地理解一下Virtual DOM的概念？
+那岂不是顺利成章地理解一下[Virtual DOM](./vue.md#virtual-dom)的概念？
 
 :::
 ```js {1}

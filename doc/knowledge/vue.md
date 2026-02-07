@@ -69,7 +69,7 @@ flag.value = true;
   - 树结构打平：将虚拟 DOM 树结构打平，只留下必要的节点，重新渲染时减少递归调用。
   - 补丁标记：在运行时，通过标记节点的变化类型（如添加、删除、移动），减少 Diff 算法的计算量。
 
-## 虚拟 DOM
+## 虚拟 DOM {#virtual-dom}
 一个元素的虚拟 DOM 可能长这样
 ```js
 {
@@ -87,4 +87,15 @@ flag.value = true;
 - 只将发生变化的部分（补丁）一次性更新到真实 DOM 上，而不是重绘整个页面。
 - 跨平台能力：既然是 JS 对象，它不仅可以映射到浏览器的 DOM，还可以映射到 iOS/Android 原生视图（如 React Native）或 Canvas。
 - 函数式编程：让开发者只需要关注“状态”，而不需要手动调用 appendChild 或 removeChild，极大提升了开发效率。
+:::
+
+## 框架生态 {#ecosystem}
+有一定工作经验的想必都熟悉 Vue 生态，这里就不展开讲了。倒是可以看看我对[工程化](/knowledge/engineering.md)的理解
+:::tip 🤖TRAE 自动补全
+- [Vue CLI](https://cli.vuejs.org/zh/)：官方的项目脚手架，提供了快速创建项目、配置项目、运行项目等功能。
+- [Vue Router](https://router.vuejs.org/zh/)：官方的路由库，用于实现单页应用（SPA）的路由功能。
+- [Vuex](https://vuex.vuejs.org/zh/)：官方的状态管理库，用于管理应用的全局状态。
+- [Pinia](https://pinia.vuejs.org/zh/)：Vue 3 的状态管理库，提供了简单、灵活的 API，同时支持 SSR。
+- [Element Plus](https://element-plus.org/zh-CN/)：基于 Vue 3 的组件库，提供了丰富的 UI 组件。
+- [Vite](https://vitejs.dev/zh/)：基于 Vue 3 的构建工具，提供了快速的开发和构建体验。
 :::

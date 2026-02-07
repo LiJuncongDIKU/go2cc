@@ -13,7 +13,7 @@ export default defineConfig({
     nav: [
       // { text: 'Home', link: '/' },
       { text: '前端技术', link: '/knowledge/index.md' },
-      { text: '行业历史', link: '/history/turing.md' },
+      { text: '行业历史', link: '/history/index.md' },
       { text: '生活证据', link: '/events/index.md' }
     ],
     logo: '/assets/icons/white_cat.svg',
@@ -22,7 +22,7 @@ export default defineConfig({
     },
     sidebar: {
       '/knowledge/': [
-         {
+        {
           text: 'hello!',
           items: [
             { text: '扉页', link: '/knowledge/index.md' },
@@ -33,14 +33,18 @@ export default defineConfig({
           items: [
             { text: 'Vue', link: '/knowledge/vue.md' },
             { text: 'React', link: '/knowledge/React.md' },
+            { text: 'vite', link: '/knowledge/vite.md' },
+            { text: 'webpack', link: '/knowledge/webpack.md' },
             { text: '微前端', link: '/knowledge/microFront.md' },
           ]
         },
         {
           text: '根本技术 & 标准',
           items: [
+            { text: '工程化', link: '/knowledge/engineer.md' },
+            { text: '包管理工具', link: '/knowledge/npm.md' },
             { text: 'Web Component', link: '/knowledge/webCompoment.md' },
-            {text:"JS 模块化标准", link: '/knowledge/jsModule.md'},
+            { text: "JS 模块化标准", link: '/knowledge/jsModule.md' },
           ]
         }
       ],
@@ -61,8 +65,9 @@ export default defineConfig({
       ],
       '/events/': [
         {
-          text: '生活证据',
+          text: 'hello!',
           items: [
+            { text: '扉页', link: '/events/index.md' },
             // { text: '生活才是证据', link: '/events/life.md' },
           ]
         }
