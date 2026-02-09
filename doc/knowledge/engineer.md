@@ -42,7 +42,7 @@
   - [webpack](webpack.md) ：类似`webpack.config.js`
   - [vite](vite.md) ：类似`vite.config.js`
 - 现代前端或服务端框架及其解析器，这一层与构建工具和配套插件有直接的联系
-  - [React](react.md)、[Vue](vue.md)、`Angular` : 流行的前端框架
+  - [React](React.md)、[Vue](vue.md)、`Angular` : 流行的前端框架
   - `Next.js`、`Nuxt.js` ：服务端渲染框架
   - `Express`、`Koa` ：流行的服务端框架等等
 - 代码质量工具和一些git工具

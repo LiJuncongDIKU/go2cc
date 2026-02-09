@@ -90,12 +90,11 @@ flag.value = true;
 :::
 
 ## 框架生态 {#ecosystem}
-有一定工作经验的想必都熟悉 Vue 生态，这里就不展开讲了。倒是可以看看我对[工程化](/knowledge/engineering.md)的理解
+有一定工作经验的想必都熟悉 Vue 生态，这里就不展开讲了。倒是可以看看我对[工程化](engineer.md)的理解
 :::tip 🤖TRAE 自动补全
 - [Vue CLI](https://cli.vuejs.org/zh/)：官方的项目脚手架，提供了快速创建项目、配置项目、运行项目等功能。
 - [Vue Router](https://router.vuejs.org/zh/)：官方的路由库，用于实现单页应用（SPA）的路由功能。
 - [Vuex](https://vuex.vuejs.org/zh/)：官方的状态管理库，用于管理应用的全局状态。
 - [Pinia](https://pinia.vuejs.org/zh/)：Vue 3 的状态管理库，提供了简单、灵活的 API，同时支持 SSR。
 - [Element Plus](https://element-plus.org/zh-CN/)：基于 Vue 3 的组件库，提供了丰富的 UI 组件。
-- [Vite](https://vitejs.dev/zh/)：基于 Vue 3 的构建工具，提供了快速的开发和构建体验。
 :::
