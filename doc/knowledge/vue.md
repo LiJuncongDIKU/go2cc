@@ -70,7 +70,7 @@ flag.value = true;
   - 补丁标记：在运行时，通过标记节点的变化类型（如添加、删除、移动），减少 Diff 算法的计算量。
 
 ## 虚拟 DOM {#virtual-dom}
-一个元素的虚拟 DOM 可能长这样
+一个元素的虚拟 DOM 可能长这样，在Vue中，对象命名为 `VNode`，每一个组件的渲染函数都返回一个 `VNode` 树。
 ```js
 {
   tag: 'div',
@@ -80,14 +80,60 @@ flag.value = true;
   ]
 }
 ```
-组件变化的时候，生成虚拟 DOM 树，然后对比之前的树，生成补丁（Patch），最后应用到真实 DOM 上。
+组件变化的时候，生成全新的 VNode 树，然后对比之前的树，生成补丁（Patch），最后应用到真实 DOM 上。
 :::info 🤖gemini
 - 性能缓冲：在大量、频繁的数据更新下，通过合并多次 DOM 操作，减少浏览器的重排（Reflow）和重绘（Repaint）。
-- 优秀的 Diff 算法（如 Vue 的双端比较、React 的 Fiber）能将复杂度从 O(n^3) 降到 O(n)。
+- 优秀的 [Diff 算法](#diff)（如 Vue 的双端比较、React 的 Fiber）能将复杂度从 O(n^3) 降到 O(n)。
 - 只将发生变化的部分（补丁）一次性更新到真实 DOM 上，而不是重绘整个页面。
 - 跨平台能力：既然是 JS 对象，它不仅可以映射到浏览器的 DOM，还可以映射到 iOS/Android 原生视图（如 React Native）或 Canvas。
 - 函数式编程：让开发者只需要关注“状态”，而不需要手动调用 appendChild 或 removeChild，极大提升了开发效率。
 :::
+
+## 函数式调用 & h函数
+使用过Element Plus的都会用类似MessageBox的组件，它并不想一般SFC一样引入一个组件并写到模板中，而是类似`函数式调用`。
+```js
+import { ElMessage } from 'element-plus'
+ElMessage({
+  message: '这是一条消息',
+  type: 'info',
+})
+```
+那么，这里使用`h函数`方案，就非常合适
+```js
+// 假设我们有一个组件 MessageComponent
+import MessageComponent from './MessageComponent.vue'
+import { h, render } from 'vue'
+
+// 创建元素和挂载到 body 上
+export function createMessageComponent(options) {
+  const vNode = h(MessageComponent, options)
+  const container = document.createElement('div')
+  render(vNode, container)
+  document.body.appendChild(container.firstElementChild)
+}
+```
+Q: 为什么是firstElementChild？\
+A: 因为`render`函数会返回一个`div`元素，而`div`元素只有一个子元素，就是我们的`MessageComponent`组件。借腹生子 :dog:
+
+:::tip 优势 👍
+- 不再建议使用 `Vue.prototype` 扩展全局属性，因为它会污染全局作用域，导致命名冲突和代码维护困难。
+- 函数式地调用更能体现临时性
+- 可以在任何地方调用，而不需要依赖 Vue 实例。比如 Vue2 中常见写法 `this.$message({ message: '这是一条消息', type: 'info' })`
+:::
+h函数的一些[语法示例](https://cn.vuejs.org/guide/extras/render-function.html#render-function-recipes)
+
+### h函数相关方案积累
+- 如上述的全局方法+即时性、用后销毁的组件，优势体现在方便、开发时又脱离了Vue实例的限制
+- dom 工厂：可以用`h函数`创建dom元素，比如弹窗、提示框等，传给比如地图或者其他要求HTML元素的库和组件
+- SFC递归调用的调用的性能消耗比较大，如果用`h函数`就可以把递归计算和组件渲染分开，性能会更好。
+  - 🌲树形组件例子：递归组件的每一个节点都需要自己的响应式对象（展开收起，是否选中等），而`h函数`则可以只管理一套响应式对象，还可以把展开收起、选中的状态通过ID扁平化。
+- HOC（高阶组件）：比如单纯包装一些属性、方法、事件等，很多时候不需要模板，有时候给屎山打补丁很有用，不必担心内部逻辑。
+- component 动态组件的补充，如果有些标签化或者动态化的场景，用`h函数`可以更方便地实现。
+#### ☠️ 风险
+- 过度使用 `h函数` 会导致代码变得复杂，维护成本增加。或者考虑`jsx`;
+- 我们在上面聊的树结构打平，模板语法可以让Vue知道哪些节点是静态的，哪些节点是动态的，而`h函数`会假定所有节点都是动态的。
+- 注意要使用函数返回的Slot，处理props的时候要用 `mergeProps` 接口，防止丢失属性。
+
 
 ## 框架生态 {#ecosystem}
 有一定工作经验的想必都熟悉 Vue 生态，这里就不展开讲了。倒是可以看看我对[工程化](engineer.md)的理解
@@ -98,3 +144,9 @@ flag.value = true;
 - [Pinia](https://pinia.vuejs.org/zh/)：Vue 3 的状态管理库，提供了简单、灵活的 API，同时支持 SSR。
 - [Element Plus](https://element-plus.org/zh-CN/)：基于 Vue 3 的组件库，提供了丰富的 UI 组件。
 :::
+
+## 关于优化 & Diff 算法
+- 官方优化建议: [跳转](https://cn.vuejs.org/guide/best-practices/performance.html#overview)
+### Diff 算法比较 {#diff}
+这一层算是算法领域的东西，倒不是为了完全搞懂，主要是diff也是面试常见问题，干脆也总结一下。
+// TODO
