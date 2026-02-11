@@ -33,6 +33,7 @@ export default defineConfig({
           items: [
             { text: 'Vue', link: '/knowledge/vue.md' },
             { text: 'React', link: '/knowledge/React.md' },
+            { text: 'diff 算法比较', link: '/knowledge/diff.md' },
             { text: 'vite', link: '/knowledge/vite.md' },
             { text: 'webpack', link: '/knowledge/webpack.md' },
             { text: '微前端', link: '/knowledge/microFront.md' },
