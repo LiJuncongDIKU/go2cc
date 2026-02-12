@@ -34,17 +34,19 @@
 
 ## 脚手架
 项目的脚手架其实应该拆分成如下几部分，我们来聊一下对目录的理解
-- 运行时环境的配置-以node为例
+- 运行时环境的配置-以node为例，其他运行时会有其他默认文件和目录
   - `package.json` ： 项目的配置文件，包含项目的元数据、依赖项、脚本命令等。
   - `node_modules` ： 项目的依赖项，安装在项目根目录下。
   - 其他配置的目录，如 `public` 、 `dist` 等。
-- 构建工具配置：从这里开始，是于运行时的包，所以上文才提到webpack与deno的不兼容问题
+- 构建工具配置：从这里开始，是基于运行时的包
   - [webpack](webpack.md) ：类似`webpack.config.js`
   - [vite](vite.md) ：类似`vite.config.js`
+  - 他们的执行往往用到运行时的API，所以上文才提到webpack与deno的不兼容问题
 - 现代前端或服务端框架及其解析器，这一层与构建工具和配套插件有直接的联系
   - [React](React.md)、[Vue](vue.md)、`Angular` : 流行的前端框架
   - `Next.js`、`Nuxt.js` ：服务端渲染框架
   - `Express`、`Koa` ：流行的服务端框架等等
+  - 如果我们接触初代的Vue就会知道，webpack + vue-loader的搭配，需要构建工具对其进行解析
 - 代码质量工具和一些git工具
   - `eslint` ：项目的代码检查工具，用于检查项目的代码是否符合规范
   - `prettier` ：项目的代码格式化工具，用于格式化项目的代码
@@ -52,8 +54,8 @@
   - `lint-staged` ：获取暂存区的文件，避免全局检查
 - 业务代码入口
   - `main.js`、`index.html` 等
+  - 约定俗成的`src`目录等
 - 包管理工具的配置文件等
-  - `yarn.lock` ：项目的依赖项，安装在项目根目录下。
-  - `pnpm-lock.yaml` ：项目的依赖项，安装在项目根目录下。
-  - `package-lock.json` ：项目的依赖项，安装在项目根目录下。
+  - `yarn.lock`、`pnpm-lock.yaml` 、`package-lock.json`
 
+<!--@include: ./npm.md-->

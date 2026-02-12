@@ -35,16 +35,15 @@ export default defineConfig({
             { text: 'React', link: '/knowledge/React.md' },
             { text: 'diff 算法比较', link: '/knowledge/diff.md' },
             { text: 'hooks', link: '/knowledge/hooks.md' },
-            { text: 'vite', link: '/knowledge/vite.md' },
-            { text: 'webpack', link: '/knowledge/webpack.md' },
+            { text: '构建工具', link: '/knowledge/builder.md' },
+            { text: '工程化', link: '/knowledge/engineer.md' },
             { text: '微前端', link: '/knowledge/microFront.md' },
+            { text: '跨端框架', link: '/knowledge/crossPlatform.md' }
           ]
         },
         {
           text: '根本技术 & 标准',
           items: [
-            { text: '工程化', link: '/knowledge/engineer.md' },
-            { text: '包管理工具', link: '/knowledge/npm.md' },
             { text: 'Web Component', link: '/knowledge/webCompoment.md' },
             { text: "JS 模块化标准", link: '/knowledge/jsModule.md' },
           ]
