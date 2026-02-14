@@ -38,7 +38,8 @@ export default defineConfig({
             { text: '构建工具', link: '/knowledge/builder.md' },
             { text: '工程化', link: '/knowledge/engineer.md' },
             { text: '微前端', link: '/knowledge/microFront.md' },
-            { text: '跨端框架', link: '/knowledge/crossPlatform.md' }
+            { text: '跨端框架', link: '/knowledge/crossPlatform.md' },
+            { text: 'GIT & CI/CD', link: '/knowledge/ci_cd.md' },
           ]
         },
         {

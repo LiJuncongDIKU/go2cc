@@ -39,8 +39,8 @@
   - `node_modules` ： 项目的依赖项，安装在项目根目录下。
   - 其他配置的目录，如 `public` 、 `dist` 等。
 - 构建工具配置：从这里开始，是基于运行时的包
-  - [webpack](webpack.md) ：类似`webpack.config.js`
-  - [vite](vite.md) ：类似`vite.config.js`
+  - [webpack](./builder.md#webpack) ：类似`webpack.config.js`
+  - [vite](./builder.md#vite) ：类似`vite.config.js`
   - 他们的执行往往用到运行时的API，所以上文才提到webpack与deno的不兼容问题
 - 现代前端或服务端框架及其解析器，这一层与构建工具和配套插件有直接的联系
   - [React](React.md)、[Vue](vue.md)、`Angular` : 流行的前端框架
@@ -59,3 +59,72 @@
   - `yarn.lock`、`pnpm-lock.yaml` 、`package-lock.json`
 
 <!--@include: ./npm.md-->
+
+## TypeScript
+- [ts](https://www.typescriptlang.org/zh/)本身是JS超集，用于检查项目的代码是否符合类型规范
+- IDE 友好，提供代码补全、类型提示等功能
+- 提前预知参数传递的类型错误
+- 类型检查可以在编译时发现错误，避免在运行时出现问题
+- 类型系统可以帮助开发者更好地理解代码，提高代码的可维护性
+:::info
+- 少写断言、any
+- 多用泛型、接口、类型别名等
+:::
+### 一些有用的技巧
+#### 类型谓词
+```ts
+type User = {
+  name: string;
+  // ……
+};
+
+function isUser(user: unknown): user is User {
+  // 校验逻辑...
+  return (user as User).name !== undefined; 
+}
+
+if (isUser(user)) {
+  // 假设user是接口获取的data, 这里可以收窄类型
+  console.log(user.name);
+}
+```
+
+#### 泛型
+- 泛型可以用于函数、接口、类等，用于定义类型参数，提高代码的复用性和类型安全性。
+- 泛型参数可以是任意类型，也可以是约束类型，如 `T extends number` 表示 `T` 必须是 `number` 类型的子类型。
+```ts
+// 通用分页容器， list 类型可作T变量传入
+interface PageResult<T> {
+  list: T[];         // 业务数据列表
+  total: number;     // 总条数
+  pageSize: number;  // 每页大小
+  current: number;   // 当前页码
+}
+
+function getUserPage()：PageResult<User> {
+  // 处理分页逻辑
+}
+function getProductPage()：PageResult<Product> {
+  // 处理分页逻辑
+}
+```
+
+#### interface 与 type 区别
+- 接口（interface）和类型别名（type）都可以用于定义对象的形状（shape），但它们有一些区别。
+- 接口可以被实现（implement），而类型别名不能。跟原本的类实现接口的机制是一致的。
+- 类型别名可以定义任意类型，包括对象、联合类型、交叉类型等。接口不行。
+```ts
+type UnionType = string | number | boolean;
+```
+- 交叉类型：可以定义一个类型，它是多个类型的交集。
+```ts
+type IntersectionType = { a: number } & { b: string };
+```
+
+#### 枚举
+```ts
+const USER_TYPE = {
+  ADMIN: 'admin',
+  USER: 'user',
+} as const;
+```
