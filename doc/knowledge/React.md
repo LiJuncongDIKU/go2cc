@@ -1,7 +1,8 @@
 # React
 :::tip 🤡说句掏心窝子的话
 - React的语法跟Vue3比较的话，差异不算很大，但是从**会用**到对**掌握理解**还是需要认真对待
-- React熟练程度不如Vue，相较于Vue的思考和总结，这篇就作为深入学习的笔记吧
+- React为什么给人一种比Vue更复杂的感觉？react并没有完全接管数据驱动到节点渲染。
+  - setState 和 useReducer 都是全量，并重新执行render，这可能需要我们深入理解react，并手动接管优化
 :::
 > 🔭 我打算参照Vue的结构，从组件系统和数据驱动两个大方向学习和记录React
 
@@ -25,15 +26,13 @@ Vue也支持JSX语法，但JSX本身没有定义任何编译时或者运行时�
 ### 基础状态
 ```jsx
 const [count, setCount] = useState(0);
-render() {
-    return (
-      <div>
-          <p>年龄：{count}</p>
-          <input type="number" value={count} 
-            onChange={(e) => setCount(Number(e.target.value))} />
-      </div>
-  )
-}
+return (
+  <div>
+      <p>年龄：{count}</p>
+      <input type="number" value={count} 
+        onChange={(e) => setCount(Number(e.target.value))} />
+  </div>
+)
 ```
 - 对于这个count来说，count是只读的，即使不是const解构也不应该修改，而应该通过setCount来更新
 - 不存在双向绑定，在用户交互修改后应该通过 `setCount` 来更新状态
@@ -60,15 +59,13 @@ console.log(count); // 0
     }
   }
   const [state, dispatch] = useReducer(reducer, initialState);
-  render() {
-    return (
-      <div>
-        {/* 某个逻辑 */}
-          <input type="number" value={state.count} 
-            onChange={(e) => dispatch({type: 'setCount', payload: Number(e.target.value)})} />
-      </div>
-    )
-  }
+  return (
+    <div>
+      {/* 某个逻辑 */}
+        <input type="number" value={state.count} 
+          onChange={(e) => dispatch({type: 'setCount', payload: Number(e.target.value)})} />
+    </div>
+  )
 ```
 - 除了这种集中管理外，还有逻辑关联
 - useMemo 类似 vue 的 computed
@@ -113,5 +110,80 @@ const dataList = [...Array(10000).fill({xxx: 'xxx'})];
 - 子组件通过React.memo来缓存渲染，只有当props变化时才会重新渲染
 总之 setState 是全量更新，处理大数据是大忌
 
+### store管理视图更新方案
+React 18+ 提供的API [useSyncExternalStore](https://zh-hans.react.dev/reference/react/useSyncExternalStore)，将复杂的状态结构交由store处理，api实际上提供一个更新的callback让store来调用，组件只需要订阅需要的字段即可
+1. 封装一个自定义的`store`，针对 路径 进行订阅
+  ```JS
+  const useStore = (bigState) => {
+    // 订阅者映射：{ 路径: [回调函数列表] }
+    const subscribers = new Map();
+    // 提供订阅，这里的callback是useSyncExternalStore 提供的，作为更新时的回调执行
+    const subscribe = (path, callback) => {
+      // ……
+    };
+    // 提供获取快照的方法，useSyncExternalStore 会调用这个方法来获取bigState
+    const getSnapshot = () => {
+      return bigState;
+    };
+  }
+  ```
+2. 将需要订阅的字段通过`useSyncExternalStore`来订阅
+  ```jsx
+  const pathStr = 'bigStat.a.b.c.d.d.xxx.targetField'; // 某个深层元素
+  // 返回值可以直接渲染到视图
+  const targetField = useSyncExternalStore(
+  // 第一个参数：订阅函数
+  (callback) => store.subscribe(pathStr, callback),
+  // 第二个参数：获取快照
+  () => store.getSnapshot(pathStr));
 
-TODO 后续补充
+  /**
+   *  渲染时，内部的useSyncExternalStore会调用：
+    *  第一个参数：订阅函数，将视图更新回调函数添加store到订阅者映射中
+    *  第二个参数：获取快照，返回bigState
+    */
+  return (
+    <div>
+      <p>目标字段：{targetField}</p>
+    </div>
+  )
+```
+3. store内部的setState方法，更新时会触发订阅者映射中的回调函数，从而触发组件重新渲染
+  ```JS
+  const useStore = (bigState) => {
+  /**
+   * 在第一步的基础上，添加setState方法
+      const subscribers = new Map();
+      const subscribe = (path, callback) => {};
+      const getSnapshot = () => {};
+    */
+    const setState = (path, newValue) => {
+      // 1. 更新bigState
+      // 2. 触发订阅者映射中的回调函数
+    }
+  }
+  ```
+
+## Redux vs Zustand
+|  | Redux | Zustand |
+| --- | --- | --- |
+| 状态管理 | 集中式，注意dispatch命名冲突，通过rtk解决 | 分散式 |
+| 状态更新 | 只能通过dispatch action来更新 | 可以直接调用setState方法来更新 |
+| 状态订阅 | 只能在组件中订阅 | 可以在组件中订阅，也可以在其他地方订阅 |
+| 状态管理工具 | 官方提供的redux库 | 社区提供的zustand库 |
+| 核心api | configStore | create |
+| 部分订阅 | 集中式的useSelector，redux树修改的时候会触发所有selector, 即使使用RTK，本质上仍然会形成一颗大树 | 各Store独立，底层式useSyncExternalStore，单个store内的修改会遍历单个store的订阅者 |
+
+
+## class 和 function 语法
+class 是比较老式的写法了，总结起来的问题有
+- 🟥类组件的this指向问题，需要注意绑定this或者使用箭头函数
+- 🟥有生命周期和render等模板代码
+- 🟥hooks 和 ts 的写法相对复杂
+- 🟩 PureComponent 开箱即用的浅比较
+
+function 组件是比较新的写法，总结起来的问题有
+- 🟥没有生命周期，需要使用 useEffect 来模拟
+- 🟩不需要绑定this, 可以直接使用hooks
+- 🟥没有render模板代码，但可能考虑内存申请问题（一般影响不大）
+- 🟩 ts 友好
