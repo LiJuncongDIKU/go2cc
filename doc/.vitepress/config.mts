@@ -54,6 +54,7 @@ export default defineConfig({
           text: "方案积累",
           items: [
             { text: "Oauth 2.0", link: '/knowledge/oauth.md' },
+            { text: "常见调优", link: '/knowledge/upgrade.md' },
           ]
         }
       ],
