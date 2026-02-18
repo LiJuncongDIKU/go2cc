@@ -45,8 +45,15 @@ export default defineConfig({
         {
           text: '根本技术 & 标准',
           items: [
-            { text: 'Web Component', link: '/knowledge/webCompoment.md' },
+            { text: "通讯协议", link: '/knowledge/protocol.md' },
             { text: "JS 模块化标准", link: '/knowledge/jsModule.md' },
+            { text: 'Web Component', link: '/knowledge/webCompoment.md' },
+          ]
+        },
+        {
+          text: "方案积累",
+          items: [
+            { text: "Oauth 2.0", link: '/knowledge/oauth.md' },
           ]
         }
       ],
