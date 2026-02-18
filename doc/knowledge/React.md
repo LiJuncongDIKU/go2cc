@@ -187,3 +187,17 @@ function 组件是比较新的写法，总结起来的问题有
 - 🟩不需要绑定this, 可以直接使用hooks
 - 🟥没有render模板代码，但可能考虑内存申请问题（一般影响不大）
 - 🟩 ts 友好
+
+## 生命周期
+### React 生命周期对比表
+
+| 阶段 | 类组件方法 (Class) | Hooks 对应实现 (Function) | 常用场景 / 备注 |
+| :--- | :--- | :--- | :--- |
+| **挂载 (Mounting)** | `constructor` | `useState(() => ...)` | 初始化 State，设置初始值 |
+| | `render` | 函数体本身 (return 之前) | 确定组件的结构 (JSX) |
+| | `componentDidMount` | `useEffect(() => { ... }, [])` | **发送 API 请求**、订阅事件、操作 DOM |
+| **更新 (Updating)** | `shouldComponentUpdate` | `React.memo` 或 `useMemo` | **性能优化**，决定是否重新渲染 |
+| | `render` | 函数体本身 | 根据新的 props/state 重新渲染 |
+| | `componentDidUpdate` | `useEffect(() => { ... }, [deps])` | 监听特定数据变化，执行副作用（如同步数据） |
+| **卸载 (Unmounting)** | `componentWillUnmount` | `useEffect(() => { return () => { ... } }, [])` | **清理工作**：清除定时器、取消订阅 |
+| **错误处理** | `componentDidCatch` | 暂无直接对应 Hook | 捕获子组件错误，防止整个 App 崩溃 |
