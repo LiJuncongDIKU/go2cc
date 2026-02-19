@@ -83,7 +83,7 @@ flag.value = true;
 组件变化的时候，生成全新的 VNode 树，然后对比之前的树，生成补丁（Patch），最后应用到真实 DOM 上。
 :::info 🤖gemini
 - 性能缓冲：在大量、频繁的数据更新下，通过合并多次 DOM 操作，减少浏览器的重排（Reflow）和重绘（Repaint）。
-- 优秀的 [Diff 算法](#diff)（如 Vue 的双端比较、React 的 Fiber）能将复杂度从 O(n^3) 降到 O(n)。
+- 优秀的 [Diff 算法](./diff.md)（如 Vue 的双端比较、React 的 Fiber）能将复杂度从 O(n^3) 降到 O(n)。
 - 只将发生变化的部分（补丁）一次性更新到真实 DOM 上，而不是重绘整个页面。
 - 跨平台能力：既然是 JS 对象，它不仅可以映射到浏览器的 DOM，还可以映射到 iOS/Android 原生视图（如 React Native）或 Canvas。
 - 函数式编程：让开发者只需要关注“状态”，而不需要手动调用 appendChild 或 removeChild，极大提升了开发效率。
