@@ -152,3 +152,5 @@ h函数的一些[语法示例](https://cn.vuejs.org/guide/extras/render-function
 - [Pinia](https://pinia.vuejs.org/zh/)：Vue 3 的状态管理库，提供了简单、灵活的 API，同时支持 SSR。
 - [Element Plus](https://element-plus.org/zh-CN/)：基于 Vue 3 的组件库，提供了丰富的 UI 组件。
 :::
+
+<!--@include: ./nuxtjs.md -->
