@@ -36,7 +36,6 @@ export default defineConfig({
             { text: 'diff 算法比较', link: '/knowledge/diff.md' },
             { text: 'hooks', link: '/knowledge/hooks.md' },
             { text: '构建工具', link: '/knowledge/builder.md' },
-            { text: '工程化', link: '/knowledge/engineer.md' },
             { text: '微前端', link: '/knowledge/microFront.md' },
             { text: '跨端框架', link: '/knowledge/crossPlatform.md' },
             { text: 'GIT & CI/CD', link: '/knowledge/ci_cd.md' },
@@ -55,6 +54,7 @@ export default defineConfig({
         {
           text: "方案积累",
           items: [
+            { text: '工程化', link: '/knowledge/engineer.md' },
             { text: "常见调优", link: '/knowledge/upgrade.md' },
             { text: "音视频处理", link: '/knowledge/media.md' },
             { text: "AI-工具", link: '/knowledge/AItool.md' },
@@ -83,6 +83,19 @@ export default defineConfig({
           items: [
             { text: '扉页', link: '/events/index.md' },
             // { text: '生活才是证据', link: '/events/life.md' },
+          ]
+        },
+        {
+          text: '镜花水月',
+          items: [
+            { text: '南柯一梦', link: '/events/dream.md' },
+          ]
+        },
+        {
+          text: '情真意切',
+          items: [
+            { text: '世界观', link: '/events/myMind.md' },
+            { text: '琐碎故事', link: '/events/event.md' },
           ]
         }
       ],
