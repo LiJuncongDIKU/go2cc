@@ -57,8 +57,8 @@ export default defineConfig({
             { text: '工程化', link: '/knowledge/engineer.md' },
             { text: "常见调优", link: '/knowledge/upgrade.md' },
             { text: "音视频处理", link: '/knowledge/media.md' },
+            { text: "地图/地理行业", link: '/knowledge/geometry.md' },
             { text: "AI-工具", link: '/knowledge/AItool.md' },
-            { text: "2D/3D 地图", link: '/knowledge/geometry.md' },
           ]
         }
       ],
