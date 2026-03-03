@@ -8,11 +8,11 @@ hero:
   tagline: 一个前端开发者看过的风景
   actions:
     - theme: brand
-      text: 初次见面
-      link: /events/index.md
-    - theme: alt
       text: 看看知识库
       link: /knowledge/index.md
+    - theme: alt
+      text: 初次见面
+      link: /events/index.md
 
 features:
   - title: 前端技术
