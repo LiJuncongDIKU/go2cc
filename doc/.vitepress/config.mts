@@ -58,7 +58,7 @@ export default defineConfig({
             { text: "常见调优", link: '/knowledge/upgrade.md' },
             { text: "音视频处理", link: '/knowledge/media.md' },
             { text: "地图/地理行业", link: '/knowledge/geometry.md' },
-            { text: "AI-工具", link: '/knowledge/AItool.md' },
+            { text: "AI-概念", link: '/knowledge/AIconcept.md' },
           ]
         }
       ],

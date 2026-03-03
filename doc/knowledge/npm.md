@@ -128,6 +128,9 @@ Admin/Client 项目的 package.json
 ```js
 import { Entity } from '@my-app/core';
 ```
+:::tip turbo
+[Turborepo](https://turborepo.dev/docs) (Turbo)它会根据依赖图谱自动并行运行所有项目的构建任务。如果代码没变，它会直接从缓存中读取结果，秒级完成。
+:::
 
 #### 依赖包的分类
 | 配置               | 描述                                                                         |
