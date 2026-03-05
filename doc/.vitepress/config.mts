@@ -59,6 +59,7 @@ export default defineConfig({
             { text: "音视频处理", link: '/knowledge/media.md' },
             { text: "地图/地理行业", link: '/knowledge/geometry.md' },
             { text: "AI-概念", link: '/knowledge/AIconcept.md' },
+            { text: "AI-实操", link: '/knowledge/AI实操.md' },
           ]
         }
       ],
